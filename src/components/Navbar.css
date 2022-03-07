@@ -1,0 +1,37 @@
+.nav_container{
+    display: flex;
+    margin-bottom: 40px;
+    justify-content: center;
+    height:82px;
+    background-color: transparent; /*#BFD7FF*//*#CFB9A5;*/
+    width: 100%;
+    color: bisque;
+  }
+
+.nav_text{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    /* border: 1px solid #cfada5; */
+}
+
+.name{
+    float: left;
+}
+
+.btn{
+    float:right;
+    font-size: 20px;
+    margin: 10px;
+    padding: 10px 25px;
+    border: 2px solid bisque;
+    border-radius: 10px;   
+    cursor: pointer;
+}
+
+.btn:hover{
+    color: #1E2D34;
+    background-color: bisque;
+    transition: ease-in 0.3s;
+}
