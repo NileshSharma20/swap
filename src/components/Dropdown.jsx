@@ -5,13 +5,11 @@ import './Dropdown.css'
 function Dropdown({items}) {
     const [isActive,setIsActive] = useState(false);
     const [selected, setSelected] = useState(null);
-    const showItems = (()=> {console.log(items)})
 
     // Dropdown.handleClickOutside= () => setIsActive(false);
 
   return (
     <div className='dropdown-container'>
-      {showItems()}
       <div className="selection" onClick={e => {setIsActive(!isActive);}}>
         {selected !== null ? 
         (<div className='select-box'>

@@ -1,3 +1,3 @@
 -Need to add onClickOutside for Dropdown
--Clean imported data for dropdown map function to work
+-Add conversion factor
 -Make connect button functional
