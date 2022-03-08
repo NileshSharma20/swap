@@ -81,7 +81,7 @@ function Swapbox() {
           <div className='header'>To (estimated)</div>
           <div className='field-container'>
             <div className="currency">
-              <Dropdown items={itemss} />
+              <Dropdown items={items} />
             </div>
             <input className='number-input' value={inputNum*2} readOnly onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} />
           </div>

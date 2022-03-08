@@ -5,12 +5,13 @@ import './Dropdown.css'
 function Dropdown({items}) {
     const [isActive,setIsActive] = useState(false);
     const [selected, setSelected] = useState(null);
-
+    const showItems = (()=> {console.log(items)})
 
     // Dropdown.handleClickOutside= () => setIsActive(false);
 
   return (
     <div className='dropdown-container'>
+      {showItems()}
       <div className="selection" onClick={e => {setIsActive(!isActive);}}>
         {selected !== null ? 
         (<div className='select-box'>
@@ -27,12 +28,12 @@ function Dropdown({items}) {
     </div>
       {isActive ? (
         <div className="items-container">
-          {items?.map((item,index) => (
-            <div key={item.symbol} className="dropdown-item" onClick={e =>{
+          {items.map((item,index) => (
+            <div key={item.name} className="dropdown-item" onClick={e =>{
               setSelected(index);
               setIsActive(false);
             }}>
-              <div className="logo"><img className='logo-img' src={item.logoURI} alt='logo' /></div>
+              <div className="logo"><img className='logo-img' src={item.logoURI} alt='' /></div>
               <div className="currency-name">{item.symbol}</div>
             </div>
           ))}
