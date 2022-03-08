@@ -16,7 +16,7 @@ function Dropdown({items}) {
           <div className='logo'><img className='logo-img' src={items[selected].logoURI} alt='logo' /></div>
           <div className='currency-name'> {items[selected].symbol}</div>
           {isActive? <i className="fa fa-caret-up" />:<i className="fa fa-caret-down" /> }
-      </div>): <div className='select-box'> token {isActive? <i class="fa fa-caret-up" />:<i className="fa fa-caret-down" />} 
+      </div>): <div className='select-box'> token {isActive? <i className="fa fa-caret-up" />:<i className="fa fa-caret-down" />} 
       </div>}
       </div>
       {isActive ? (

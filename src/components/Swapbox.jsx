@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
+// const axios = require("axios")
+import getTokens from './getTokens'
 import './Swapbox.css'
 import Dropdown from './Dropdown'
 
 function Swapbox() {
   const [inputNum, setInputNum] = useState(0);
+  const tokensList = getTokens()
   const items= [{  
             symbol:"BNB",
             name: "BNB",
@@ -52,6 +55,13 @@ function Swapbox() {
           decimals: 18,
           address:	"0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
           logoURI:	"https://tokens.1inch.io/0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c.png"
+        },
+        {   
+          symbol:	"AUTO",
+          name:	"AUTOv2",
+          decimals: 18,
+          address:	"0xa184088a740c695e156f91f5cc086a06bb78b827",
+          logoURI:		"https://tokens.1inch.io/0xa184088a740c695e156f91f5cc086a06bb78b827.png"
         }]
 
   return (
@@ -63,17 +73,15 @@ function Swapbox() {
               <Dropdown items={items} />
             </div>
             <input className='number-input' value={inputNum} onChange={(e) =>setInputNum(e.target.value)} onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} />
-            
           </div>
         </div>
         <div className='from-container'>
           <div className='header'>To (estimated)</div>
           <div className='field-container'>
-            {/* <div className='currency'>Some</div> */}
             <div className="currency">
-              <Dropdown items={items} />
+              <Dropdown items={tokensList} />
             </div>
-            <input className='number-input' value={inputNum*2} onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} />
+            <input className='number-input' value={inputNum*2} readOnly onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} />
           </div>
         </div>
         {/* {inputNum} */}
