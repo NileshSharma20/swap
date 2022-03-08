@@ -6,8 +6,8 @@ import Dropdown from './Dropdown'
 
 function Swapbox() {
   const [inputNum, setInputNum] = useState(0);
-  const tokensList = getTokens()
-  const items= [{  
+  const items = getTokens()
+  const itemss= [{  
             symbol:"BNB",
             name: "BNB",
             decimals: 18,
@@ -63,6 +63,7 @@ function Swapbox() {
           address:	"0xa184088a740c695e156f91f5cc086a06bb78b827",
           logoURI:		"https://tokens.1inch.io/0xa184088a740c695e156f91f5cc086a06bb78b827.png"
         }]
+  const showItems = (()=> {console.log(items)})
 
   return (
     <div className='swapbox-container'>
@@ -71,6 +72,7 @@ function Swapbox() {
           <div className='field-container'>
             <div className="currency">
               <Dropdown items={items} />
+              {showItems()}
             </div>
             <input className='number-input' value={inputNum} onChange={(e) =>setInputNum(e.target.value)} onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} />
           </div>
@@ -79,12 +81,15 @@ function Swapbox() {
           <div className='header'>To (estimated)</div>
           <div className='field-container'>
             <div className="currency">
-              <Dropdown items={tokensList} />
+              <Dropdown items={itemss} />
             </div>
             <input className='number-input' value={inputNum*2} readOnly onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} />
           </div>
         </div>
-        {/* {inputNum} */}
+        <div className="form-container">
+          {items}
+        </div>
+        
     </div>
   )
 }

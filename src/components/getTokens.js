@@ -1,28 +1,24 @@
 const axios = require("axios")
 
-var symbol = [];
-var logoURI = [];
-
-const getTokens = async() => {
 const tokens = []
-await axios.get(`https://api.1inch.io/v4.0/56/tokens`)
-    .then(function (response) {
-        var data = response.data;
-        var i = 0;
-        var j = 0;
-        Object.keys(data.tokens).forEach(function (key) {
-            symbol[i++] = data.tokens[key].symbol;
-            logoURI[j++] = data.tokens[key].logoURI;
+const getTokens = () => {
+     axios.get(`https://api.1inch.io/v4.0/56/tokens`)
+        .then(function (response) {
+            const data = response.data;
+            Object.keys(data.tokens).forEach(function (key) {
+                tokens.push({symbol:data.tokens[key].symbol,
+                    name:data.tokens[key].name,
+                    decimals: data.tokens[key].decimals,
+                    address: data.tokens[key].address,
+                    logoURI:data.tokens[key].logoURI});
+            })
+            console.log(tokens)
+            
         })
-        for (let i = 0; i < symbol.length; i++) {
-            tokens.push({symbol:symbol[i],logoURI: logoURI[i]});
-        }
-        console.log(tokens)
+        .catch(function (error){
+            console.log(error)
+        })
         return tokens
-    })
-    .catch(function (error){
-        console.log(error)
-    })
 }
 
 export default getTokens
