@@ -1,4 +1,3 @@
 -Need to add onClickOutside for Dropdown
--dehighlight inout on click
--Need to import logo and json objects
--Make coonect button functional
+-Clean imported data for dropdown map function to work
+-Make connect button functional
