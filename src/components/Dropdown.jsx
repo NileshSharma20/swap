@@ -13,11 +13,13 @@ function Dropdown({items}) {
       <div className="selection" onClick={e => {setIsActive(!isActive);}}>
         {selected !== null ? 
         (<div className='select-box'>
+          <div className='token-info'>
             <div className='logo'>
-              <img className='logo-img' src={items[selected].logoURI} alt='logo' />
+              <img className='logo-img' src={items[selected].logoURI} alt='' />
             </div>
             <div className='currency-name'>
               {items[selected].symbol}
+            </div>
             </div>
             {isActive? <i className="fa fa-caret-up" />:<i className="fa fa-caret-down" /> }
       </div>): 

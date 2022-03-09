@@ -28,11 +28,7 @@ function Swapbox() {
             </div>
             <input className='number-input' value={inputNum*2} readOnly onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} />
           </div>
-        </div>
-        <div className="form-container">
-          {items}
-        </div>
-        
+        </div>        
     </div>
   )
 }
