@@ -1,3 +1,2 @@
 -Need to add onClickOutside for Dropdown
--Add conversion factor
--Make connect button functional
+-Need to add conversion factor
