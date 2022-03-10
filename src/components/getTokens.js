@@ -12,7 +12,6 @@ const getTokens = () => {
                     address: data.tokens[key].address,
                     logoURI:data.tokens[key].logoURI});
             })
-            // console.log(tokens)
             
         })
         .catch(function (error){

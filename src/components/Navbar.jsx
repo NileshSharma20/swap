@@ -17,7 +17,7 @@ function Navbar() {
     <div className='nav_container'>
       <div className="nav_text">
         <div className='name'>sWasps</div>
-        <div className="btn" onClick={(e)=>connectWallet()}>Connect</div>
+        <div className="btn" onClick={(e)=>connectWallet()}>Connect Wallet</div>
       </div> 
     </div>
   )
