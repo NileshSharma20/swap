@@ -10,7 +10,7 @@
     width: 600px;
     min-height: 200px;
     background-color: #171412;
-    color: bisque;
+    color: rgb(255, 228, 196);
     padding: 16px;
     border-radius: 20px;
   }
@@ -59,3 +59,21 @@
       width: 180px;
       height: 30px;
   }
+
+  .swap-btn{
+    float:right;
+    font-size: 20px;
+    margin: 10px;
+    padding: 10px 25px;
+    border: 2px solid bisque;
+    color:bisque;
+    border-radius: 8px;   
+    cursor: pointer;
+}
+
+.swap-btn:hover{
+    /* color: #1E2D34; */
+    color: #cfada5;
+    background-color: bisque;
+    transition: ease-in 0.3s;
+}
