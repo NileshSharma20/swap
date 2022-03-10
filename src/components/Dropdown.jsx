@@ -8,7 +8,6 @@ function Dropdown({items, passAddress}) {
     
     const functionHandler = (add) => {
       if(add!==""){
-        // console.log(add)
         passAddress(add);
       }
     }
