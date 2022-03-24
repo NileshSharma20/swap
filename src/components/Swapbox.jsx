@@ -1,20 +1,28 @@
 import React, {useState, useEffect} from 'react'
 import getTokens from './getTokens'
-import getQuote from './getQuote'
+// import getQuote from './getQuote'
 import Dropdown from './Dropdown'
 import './Swapbox.css'
+// import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import {getQuote, reset} from '../features/quote/quoteSlice'
 
 function Swapbox() {
-  
+  const disptach = useDispatch();
+  // const navigate = useNavigate();
+
+  const [items, setItems] = useState([])
+
   const [inputNum, setInputNum] = useState(0);
   let strInputNum = `${inputNum}`
 
   const [fromTokenAddress, setFromTokenAddress] = useState("");
   const [toTokenAddress, setToTokenAddress] = useState("");
-  
-  const items = getTokens()
 
-  const [quoteVal,setQuoteVal] = useState('0')
+  // const [quoteVal,setQuoteVal] = useState('0')
+
+  //get quote from store
+  const {quote,isError, isSuccess, isLoading, message} = useSelector((state) => state.quote)
 
   function getFromAddress(address){
     setFromTokenAddress(address)
@@ -24,16 +32,27 @@ function Swapbox() {
     setToTokenAddress(address)
   }
 
-  const showQuote = () => {console.log({quoteVal})}
+  // const showQuote = () => {console.log({quoteVal})}
+
+  useEffect(()=>{
+    setItems(getTokens())
+  },[])
 
   useEffect(()=>{
     if( (fromTokenAddress!=="")&&(toTokenAddress!=="") ){
-      let q = getQuote(fromTokenAddress, toTokenAddress, strInputNum)
-      console.log(`q: ${q}`)
-      setQuoteVal(q)
-     
+      // console.log(`${fromTokenAddress} ${toTokenAddress},${strInputNum}`)
+      const quoteData = {fromTokenAddress, toTokenAddress, strInputNum}
+      disptach(getQuote(quoteData))
     }
-  },[fromTokenAddress, toTokenAddress, strInputNum])
+
+    if(isError){
+      console.log(message)
+    }
+
+    return () => {
+      disptach(reset())
+    }
+  },[fromTokenAddress, toTokenAddress, strInputNum, isError, disptach, message])
 
   return (
     <div className='swapbox-container'>
@@ -56,11 +75,11 @@ function Swapbox() {
               <Dropdown items={items} passAddress={getToAddress}/>
             </div>
             <input className='number-input'  
-              value={quoteVal} 
+              value={quote} 
               readOnly />
           </div>
         </div>  
-        <div className='swap-btn' onClick={(e) => showQuote()}>Swap</div>     
+        <div className='swap-btn'>Swap</div>     
         {/* {fromTokenAddress}  */}
     </div>
   )

@@ -1,2 +1,3 @@
--Need to add proper async functions and respective handling
+-Need to dubug 0 error for getQuote
+-Need to implement tokenSlice
 -Need to add onClickOutside for Dropdown

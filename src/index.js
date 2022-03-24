@@ -3,16 +3,15 @@ import ReactDOM from 'react-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import './index.css';
 import App from './App';
-// import { Web3ReactProvider } from '@web3-react/core'
-// import Web3 from 'web3'
 
-// function getLibrary(provider) {
-//   return new Web3(provider)
-// }
+import { store } from './app/store';
+import { Provider } from 'react-redux'
 
 ReactDOM.render(
   <>
-    <App />
+    <Provider store = {store}>
+      <App />
+    </Provider>
   </>,
   document.getElementById('root')
 );
