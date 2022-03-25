@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from 'react-redux'
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import tokenService from './tokenService'
 
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
     message: '',
 }
 
-const getTokens = createAsyncThunk(
+export const getTokens = createAsyncThunk(
     'token/gettokens',
     async (_, thunkAPI) => {
         try {

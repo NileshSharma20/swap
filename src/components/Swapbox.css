@@ -33,7 +33,6 @@
   }
 
   .field-container{
-      /* position: relative; */
       float: left;
       width: 95%;
       flex-direction: column;
@@ -43,6 +42,17 @@
       float:left;
       width: auto;
   }
+
+  .load{
+    margin-top: 12px;
+    float: right;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    width: 180px;
+    height: 30px;
+    background-image:linear-gradient(to right, #171412, #253741);
+}
 
   .number-input{
       margin-top: 12px;
@@ -77,3 +87,4 @@
     background-color: bisque;
     transition: ease-in 0.3s;
 }
+

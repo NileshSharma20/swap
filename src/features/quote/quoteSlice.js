@@ -32,7 +32,8 @@ export const quoteSlice = createSlice({
     name: 'quote',
     initialState,
     reducers:{
-        reset: (state) => ({
+        resetQuote: (state) => ({
+            quote:0,
             isError: false,
             isSuccess: false,
             isLoading: false,
@@ -56,6 +57,6 @@ export const quoteSlice = createSlice({
     }
 })
 
-export const {reset} = quoteSlice.actions;
+export const {resetQuote} = quoteSlice.actions;
 
 export default quoteSlice.reducer
