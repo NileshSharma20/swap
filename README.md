@@ -1,3 +1,2 @@
--Need to dubug 0 error for getQuote
--Need to implement tokenSlice
+-Implement other APIs
 -Need to add onClickOutside for Dropdown
