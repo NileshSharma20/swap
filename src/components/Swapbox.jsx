@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Dropdown from './Dropdown'
+import Checkbox from './Checkbox'
 import './Swapbox.css'
 import { useSelector, useDispatch } from 'react-redux'
 import {getQuote, resetQuote} from '../features/quote/quoteSlice'
@@ -76,8 +77,10 @@ function Swapbox() {
                 readOnly />}
           </div>
         </div>  
-        <div className='swap-btn'>Swap</div>     
-        {/* {fromTokenAddress}  */}
+        <div className="from-container">
+          <h1><Checkbox/></h1>
+        </div>
+        <div className='swap-btn'>Swap</div> 
     </div>
   )
 }

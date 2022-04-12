@@ -1,0 +1,32 @@
+.checkbox-container{
+    display: flex;
+    align-items: left;
+    min-height: 50px;
+    width: 100%;
+    position: relative;
+    flex-direction: column;
+    /* font-size: 15px; */
+}
+
+.form{
+    /* font-size: 10px; */
+    margin: 10px 0px;
+    padding: 5px 15px;
+}
+
+.form>h1{
+    font-size: 25px;
+}
+
+.checkoption-container{
+    padding-left: 20px;
+    font-size: 5px;
+}
+
+.checkbox-option{
+    margin: 10px;
+}
+
+.form-check-label{
+    font-size: 20px;
+}

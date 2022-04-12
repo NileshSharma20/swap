@@ -1,2 +1,4 @@
--Implement other APIs
+-Flesh out remaining APIs
+-Fix loading error
+-Add protocol list
 -Need to add onClickOutside for Dropdown
