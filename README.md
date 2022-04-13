@@ -1,4 +1,5 @@
 -Flesh out remaining APIs
 -Fix loading error
--Add protocol list
+-Fix protocol css
+-Fix bugs in clear/select all
 -Need to add onClickOutside for Dropdown
