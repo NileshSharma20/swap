@@ -29,7 +29,7 @@
 
 .items-container{
     width: 95%;
-    height: 210px;
+    height: 175px;
     overflow: auto;
     background-color: rgb(255, 228, 196);
     border-radius: 10px;

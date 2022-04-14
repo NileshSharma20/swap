@@ -1,25 +1,16 @@
 import React,{useState, useEffect} from 'react'
 import './Checkbox.css'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { getProtocols} from '../features/protocol/protocolSlice'
-
-function Checkbox() {
-
-  const dispatch = useDispatch();
-  const {protocolList, isError, isSuccess, isLoading, message} = useSelector((state) => state.protocols)
-  const staticProtocols = [{id:"a",title:"P1",isChecked:true},{id:"b",title:"P2",isChecked:true},{id:"c",title:"P3",isChecked:true}]
+function Checkbox({protocolsList}) {
 
   const [protocols, setProtocols] = useState([]);
   const [checkedAll,setCheckedAll] = useState(true);
 
-  useEffect(()=>{
-    dispatch(getProtocols())
-  },[dispatch])
 
   useEffect(()=>{
-    setProtocols(staticProtocols)
-  },[])
+    setProtocols(protocolsList)
+    console.log(`set protocols ${protocolsList[0]}`)
+  },[protocolsList])
 
   const handleChange= (e) => {
     const {title, checked} = e.target
@@ -33,14 +24,17 @@ function Checkbox() {
     }
     else {
       let tempProtocols = protocols.map(protocol => protocol.title===title ? {...protocol, isChecked: checked}:protocol)
+      console.log(`${tempProtocols[0].id}`)
       setProtocols(tempProtocols)
     }
   }
 
   return (
     <div className='checkbox-container' >
-      <form className='form'>
-        <h1>Protocols</h1>
+      <div className='form'>
+        <div className='header'>
+          <h1>Protocols</h1>
+        </div>
         <div className="checkoption-container">
           <input 
             type="checkbox" 
@@ -49,22 +43,24 @@ function Checkbox() {
             checked = {(protocols.filter((protocol)=> protocol?.isChecked!==true).length<1) || checkedAll}
             onChange={handleChange}/>
           <label className="form-check-label">
-              {checkedAll? "Clear All":"Select All"}
+              Select All
           </label>
         </div>
-
-        {protocols.map((protocol)=>(
-          <div className="checkoption-container" key={protocol.id}>
-            <input type="checkbox" 
-              className='checkbox-option'
-              title={protocol.title}
-              checked ={protocol?.isChecked ||false}
-              onChange={handleChange} />
-            <label className="form-check-label">{protocol.title}</label>
-        </div>
+        <div className='checkbox-scroll'>
+        {protocols?.map((protocol)=>(
+            <div className="checkoption-container" key={protocol.id}>
+              <input type="checkbox" 
+                
+                className='checkbox-option'
+                title={protocol.title}
+                checked ={protocol?.isChecked ||false}
+                onChange={handleChange} />
+              <label className="form-check-label">{protocol.title}</label>
+          </div>
         ))}
+        </div>
 
-      </form>
+      </div>
     </div>
   )
 }

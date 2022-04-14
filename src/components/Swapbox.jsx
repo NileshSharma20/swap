@@ -5,6 +5,7 @@ import './Swapbox.css'
 import { useSelector, useDispatch } from 'react-redux'
 import {getQuote, resetQuote} from '../features/quote/quoteSlice'
 import { getTokens} from '../features/token/tokenSlice'
+import { getProtocols} from '../features/protocol/protocolSlice'
 
 function Swapbox() {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ function Swapbox() {
   //get tokens list from store
   const {tokens, isErrorToken, isSuccessToken, isLoadingToken, messageToken} = useSelector((state) => state.tokens)
 
+  //get protocols list from store
+  const {protocols, isErrorPro, isSuccessPro, isLoadingPro, messagePro} = useSelector((state) => state.protocols)
+
   //Lifting selected addresses from Dropdown component
   function getFromAddress(address){
     setFromTokenAddress(address)
@@ -33,6 +37,7 @@ function Swapbox() {
   //Deploying apis
   useEffect(()=>{
     dispatch(getTokens())
+    dispatch(getProtocols())
   },[dispatch])
 
   useEffect(()=>{
@@ -78,7 +83,7 @@ function Swapbox() {
           </div>
         </div>  
         <div className="from-container">
-          <h1><Checkbox/></h1>
+          <h1><Checkbox protocolsList={protocols}/></h1>
         </div>
         <div className='swap-btn'>Swap</div> 
     </div>

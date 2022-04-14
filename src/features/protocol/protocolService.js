@@ -7,7 +7,6 @@ const getProtocols = async() => {
      await axios.get(protocolApi)
         .then(function (response) {
             const data = response.data;
-            // console.log(`protocol data: ${data}`)
             Object.keys(data.protocols).forEach(function (key) {
                 protocols.push({
                     id: data.protocols[key].id,

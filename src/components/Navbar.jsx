@@ -3,6 +3,7 @@ import Web3 from 'web3';
 import './Navbar.css'
 
 function Navbar() {
+  //Connecting to MetaMask Wallet
   const connectWallet = async () =>{
       if (window.ethereum) {
           window.web3 = new Web3(window.ethereum);

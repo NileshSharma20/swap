@@ -9,6 +9,7 @@
     justify-content: center;
     width: 600px;
     min-height: 200px;
+    max-height: 800px;
     background-color: #171412;
     color: rgb(255, 228, 196);
     padding: 16px;
