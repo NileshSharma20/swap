@@ -13,7 +13,7 @@ const initialState ={
 export const getQuote = createAsyncThunk(
     'quote/getquote',
     async (quoteData, thunkAPI) => {
-        // console.log(`${quoteData.fromTokenAddress}, ${quoteData.toTokenAddress}, ${quoteData.strInputNum}`)
+        console.log(`${quoteData.fromTokenAddress}, ${quoteData.toTokenAddress}, ${quoteData.strInputNum}`)
         try {
             return await quoteService.getQuote(quoteData.fromTokenAddress, quoteData.toTokenAddress, quoteData.strInputNum)
         } catch (error) {
@@ -42,6 +42,8 @@ export const quoteSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getQuote.pending , (state)=>{
+                state.isSuccess = false
+                state.isError = false
                 state.isLoading = true
             })
             .addCase(getQuote.fulfilled, (state,action) => {

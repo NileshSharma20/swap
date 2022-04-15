@@ -13,12 +13,15 @@ const getQuote = async(fromToken, toToken, value) =>{
         }
     }).then(function (response) {
         quote = response.data.toTokenAmount
-        
-        if(value===0){
+        console.log(JSON.stringify(response.data,null,4))
+        if(value==="0"){
             quote = 0;
         }
     }).catch( function(error){
         console.log(error)
+        if(value==="0"){
+            quote = 0;
+        }
     })
 
     return quote

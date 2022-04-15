@@ -34,26 +34,49 @@ function Swapbox() {
     setToTokenAddress(address)
   }
 
-  //Deploying apis
+  //Initializing arrays
   useEffect(()=>{
     dispatch(getTokens())
     dispatch(getProtocols())
   },[dispatch])
 
+  
+  //Deploying APIs
   useEffect(()=>{
-    if( (fromTokenAddress!=="")&&(toTokenAddress!=="")&&(strInputNum!=="0") ){
+    //Sending 0 as input leads to server error
+    if(strInputNum==="0"){
+      strInputNum = ""
+    }
+
+    //Getting quote
+    if( (fromTokenAddress!=="")&&(toTokenAddress!=="")&&(strInputNum) ){
       const quoteData = {fromTokenAddress, toTokenAddress, strInputNum}
       dispatch(getQuote(quoteData))
     }
 
+    //Loading prompts
+    if(isLoadingQuote){
+      console.log(`Loading Quote`)
+    }
+
+    //Error Prompts
     if(isErrorQuote){
       console.log(messageQuote)
     }
 
+    if(isErrorToken){
+      console.log(messageToken)
+    }
+
+    if(isErrorPro){
+      console.log(messagePro)
+    }
+    
+    //Restting quote value
     return () => {
       dispatch(resetQuote())
     }
-  },[fromTokenAddress, toTokenAddress, strInputNum, isErrorQuote, dispatch, messageQuote])
+  },[fromTokenAddress, toTokenAddress, strInputNum, isErrorQuote, isErrorPro, isErrorToken, messagePro, messageToken, dispatch, messageQuote])
 
   return (
     <div className='swapbox-container'>
@@ -78,14 +101,19 @@ function Swapbox() {
             {isLoadingQuote ?
               <div className='load'></div> :
               <input className='number-input'  
-                value={isLoadingQuote ? "":quote} 
+                value={quote} 
                 readOnly />}
           </div>
         </div>  
-        <div className="from-container">
+        <div className="protocol-container">
           <h1><Checkbox protocolsList={protocols}/></h1>
         </div>
-        <div className='swap-btn'>Swap</div> 
+        <div className="button-container">
+          
+          <div className='allow-btn'>Check Allowance</div>
+          <div className='allow-btn'>Get Allowance</div>
+          <div className='swap-btn'>Swap</div> 
+        </div>
     </div>
   )
 }

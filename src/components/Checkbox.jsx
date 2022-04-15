@@ -9,7 +9,7 @@ function Checkbox({protocolsList}) {
 
   useEffect(()=>{
     setProtocols(protocolsList)
-    console.log(`set protocols ${protocolsList[0]}`)
+    console.log(`set protocols ${JSON.stringify(protocolsList,null,4)}`)
   },[protocolsList])
 
   const handleChange= (e) => {
@@ -24,7 +24,6 @@ function Checkbox({protocolsList}) {
     }
     else {
       let tempProtocols = protocols.map(protocol => protocol.title===title ? {...protocol, isChecked: checked}:protocol)
-      console.log(`${tempProtocols[0].id}`)
       setProtocols(tempProtocols)
     }
   }
@@ -40,7 +39,7 @@ function Checkbox({protocolsList}) {
             type="checkbox" 
             className='checkbox-option'
             title="selectAll"
-            checked = {(protocols.filter((protocol)=> protocol?.isChecked!==true).length<1) || checkedAll}
+            checked = {(protocols.filter((protocol)=> protocol?.isChecked!==true).length<1) && checkedAll}
             onChange={handleChange}/>
           <label className="form-check-label">
               Select All
