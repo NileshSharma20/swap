@@ -2,7 +2,6 @@ import axios from 'axios'
 
 const quoteApi = 'https://api.1inch.io/v4.0/56/quote';
 var quote = 0
-
 const getQuote = async(fromToken, toToken, value) =>{     
     await axios.get(quoteApi,
     {

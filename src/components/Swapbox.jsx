@@ -51,6 +51,7 @@ function Swapbox() {
     //Getting quote
     if( (fromTokenAddress!=="")&&(toTokenAddress!=="")&&(strInputNum) ){
       const quoteData = {fromTokenAddress, toTokenAddress, strInputNum}
+      
       dispatch(getQuote(quoteData))
     }
 
@@ -76,7 +77,7 @@ function Swapbox() {
     return () => {
       dispatch(resetQuote())
     }
-  },[fromTokenAddress, toTokenAddress, strInputNum, isErrorQuote, isErrorPro, isErrorToken, messagePro, messageToken, dispatch, messageQuote])
+  },[fromTokenAddress, toTokenAddress, strInputNum, isLoadingQuote, isErrorQuote, isErrorPro, isErrorToken, messagePro, messageToken, dispatch, messageQuote])
 
   return (
     <div className='swapbox-container'>

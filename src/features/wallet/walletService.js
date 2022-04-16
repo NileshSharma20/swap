@@ -35,17 +35,17 @@ const getAllowance = async(tokenAdd) => {
     return allowance
 }
 
-const swapParameters = async(fromToken, toToken, value, protocols) => {
+const swapParameters = async(fromToken, toToken, value, protocolsList) => {
     await axios.get(swapApi, {
         params:{
-            fromTokenAddress: map.get(t1data),
-            toTokenAddress: map.get(t2data),
-            amount: val.value,
+            fromTokenAddress: fromToken,
+            toTokenAddress: toToken,
+            amount: value,
             fromAddress: userAddress,
             slippage: 1,
             disableEstimate: false,
             allowPartialFill: false,
-            protocols:finalList.toString()
+            protocols:protocolsList.toString()
         }
     }).then(function(response){
         console.log(`swapped`)
