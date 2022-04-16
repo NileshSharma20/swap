@@ -2,13 +2,17 @@ import React, {useState, useEffect} from 'react'
 import Dropdown from './Dropdown'
 import Checkbox from './Checkbox'
 import './Swapbox.css'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import {getQuote, resetQuote} from '../features/quote/quoteSlice'
+import { getQuote, resetQuote } from '../features/quote/quoteSlice'
 import { getTokens} from '../features/token/tokenSlice'
 import { getProtocols} from '../features/protocol/protocolSlice'
 
 function Swapbox() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [quoteLoad, setQuoteLoad] = useState(false);
 
   const [inputNum, setInputNum] = useState(0);
   let strInputNum = `${inputNum}`
@@ -17,13 +21,13 @@ function Swapbox() {
   const [toTokenAddress, setToTokenAddress] = useState("");
 
   //get quote from store
-  const {quote, isErrorQuote, isSuccessQuote, isLoadingQuote, messageQuote} = useSelector((state) => state.quote)
+  const {quote} = useSelector((state) => state.quote)
 
   //get tokens list from store
-  const {tokens, isErrorToken, isSuccessToken, isLoadingToken, messageToken} = useSelector((state) => state.tokens)
+  const {tokens} = useSelector((state) => state.tokens)
 
   //get protocols list from store
-  const {protocols, isErrorPro, isSuccessPro, isLoadingPro, messagePro} = useSelector((state) => state.protocols)
+  const {protocols} = useSelector((state) => state.protocols)
 
   //Lifting selected addresses from Dropdown component
   function getFromAddress(address){
@@ -36,9 +40,14 @@ function Swapbox() {
 
   //Initializing arrays
   useEffect(()=>{
+    //Landing Page
+    if(!tokens || !protocols){
+      navigate('/loading')
+    }
+
     dispatch(getTokens())
     dispatch(getProtocols())
-  },[dispatch])
+  },[dispatch, navigate, tokens, protocols])
 
   
   //Deploying APIs
@@ -51,33 +60,19 @@ function Swapbox() {
     //Getting quote
     if( (fromTokenAddress!=="")&&(toTokenAddress!=="")&&(strInputNum) ){
       const quoteData = {fromTokenAddress, toTokenAddress, strInputNum}
-      
+      setQuoteLoad(true)
       dispatch(getQuote(quoteData))
     }
 
-    //Loading prompts
-    if(isLoadingQuote){
-      console.log(`Loading Quote`)
+    if(quote){
+      setQuoteLoad(false);
     }
 
-    //Error Prompts
-    if(isErrorQuote){
-      console.log(messageQuote)
-    }
-
-    if(isErrorToken){
-      console.log(messageToken)
-    }
-
-    if(isErrorPro){
-      console.log(messagePro)
-    }
-    
     //Restting quote value
     return () => {
       dispatch(resetQuote())
     }
-  },[fromTokenAddress, toTokenAddress, strInputNum, isLoadingQuote, isErrorQuote, isErrorPro, isErrorToken, messagePro, messageToken, dispatch, messageQuote])
+  },[fromTokenAddress, toTokenAddress, strInputNum, dispatch])
 
   return (
     <div className='swapbox-container'>
@@ -99,7 +94,7 @@ function Swapbox() {
             <div className="currency">
               <Dropdown items={tokens} passAddress={getToAddress}/>
             </div>
-            {isLoadingQuote ?
+            {quoteLoad ?
               <div className='load'></div> :
               <input className='number-input'  
                 value={quote} 

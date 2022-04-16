@@ -4,13 +4,20 @@ import './Checkbox.css'
 function Checkbox({protocolsList}) {
 
   const [protocols, setProtocols] = useState([]);
+  const [checkedProtocols, setCheckedProtocols] = useState([]);
   const [checkedAll,setCheckedAll] = useState(true);
 
 
   useEffect(()=>{
     setProtocols(protocolsList)
+    let tempChecked = protocolsList.filter(protocol => protocol.isChecked === true)
+    setCheckedProtocols(protocolsList.map(protocol => (protocol.isChecked === true)? protocol.id:""))
     console.log(`set protocols ${JSON.stringify(protocolsList,null,4)}`)
   },[protocolsList])
+
+  // useEffect(()=>{
+  //   console.log(`checked protocols (event)  ${JSON.stringify(checkedProtocols,null,4)}`)
+  // },[checkedProtocols])
 
   const handleChange= (e) => {
     const {title, checked} = e.target
@@ -21,11 +28,21 @@ function Checkbox({protocolsList}) {
       })
       setProtocols(tempProtocols)
       
+      let returnProtocols = tempProtocols.filter( protocol => protocol.isChecked === true)
+      setCheckedProtocols(returnProtocols.map(protocol => protocol.id))
+      // console.log(`checked protocols (selectAll) ${JSON.stringify(checkedProtocols,null,4)}`)
     }
     else {
       let tempProtocols = protocols.map(protocol => protocol.title===title ? {...protocol, isChecked: checked}:protocol)
       setProtocols(tempProtocols)
+
+      let returnProtocols = tempProtocols?.filter( protocol => protocol.isChecked === true)
+      setCheckedProtocols(returnProtocols.map(protocol => protocol.id))
     }
+
+    // let returnProtocols = protocols?.filter( protocol => protocol.isChecked === true)
+    // setCheckedProtocols(returnProtocols.map(protocol => protocol.id))
+    // console.log(`checked protocols from handleChange ${JSON.stringify(checkedProtocols,null,4)}`)
   }
 
   return (
@@ -58,7 +75,7 @@ function Checkbox({protocolsList}) {
           </div>
         ))}
         </div>
-
+          <div className="checkoption-container">{checkedProtocols.toString()}</div>
       </div>
     </div>
   )
