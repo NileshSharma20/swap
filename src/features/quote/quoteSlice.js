@@ -13,9 +13,9 @@ const initialState ={
 export const getQuote = createAsyncThunk(
     'quote/getquote',
     async (quoteData, thunkAPI) => {
-        console.log(`${quoteData.fromTokenAddress}, ${quoteData.toTokenAddress}, ${quoteData.strInputNum}`)
+        console.log(`${quoteData.fromTokenAddress}, ${quoteData.toTokenAddress}, ${quoteData.big}`)
         try {
-            return await quoteService.getQuote(quoteData.fromTokenAddress, quoteData.toTokenAddress, quoteData.strInputNum)
+            return await quoteService.getQuote(quoteData.fromTokenAddress, quoteData.toTokenAddress, quoteData.big)
         } catch (error) {
             const message =
           (error.response &&

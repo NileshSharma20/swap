@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import Web3 from 'web3'
 import Dropdown from './Dropdown'
 import Checkbox from './Checkbox'
 import './Swapbox.css'
@@ -15,6 +16,7 @@ function Swapbox() {
   const [quoteLoad, setQuoteLoad] = useState(false);
 
   const [inputNum, setInputNum] = useState(0);
+  // const [bigNum, setBigNum] = useState();
   let strInputNum = `${inputNum}`
 
   const [fromTokenAddress, setFromTokenAddress] = useState("");
@@ -56,7 +58,13 @@ function Swapbox() {
     dispatch(getProtocols())
   },[dispatch, navigate, tokens, protocols])
 
+
+  // Converting to usable format
+  // useEffect(()=>{
+  //   setBigNum(Web3.utils.toWei(inputNum));
+  // },[inputNum])
   
+
   //Deploying APIs
   useEffect(()=>{
     //Sending 0 as input leads to server error
@@ -67,7 +75,10 @@ function Swapbox() {
 
     //Getting quote
     if( (fromTokenAddress!=="")&&(toTokenAddress!=="")&&(strInputNum) ){
-      const quoteData = {fromTokenAddress, toTokenAddress, strInputNum}
+
+      let big = Web3.utils.toWei(strInputNum)
+      console.log(`${typeof(big)}, ${big}`)
+      const quoteData = {fromTokenAddress, toTokenAddress, big}
       dispatch(getQuote(quoteData))
     }
 

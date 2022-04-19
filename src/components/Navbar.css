@@ -10,6 +10,7 @@
 
 .nav_text{
     display: flex;
+    padding-top: 20px;
     justify-content: space-between;
     align-items: center;
     width: 90%;
@@ -18,7 +19,7 @@
 
 .logoImage{
     margin: 5px;
-    width: 40px;
+    width: 60px;
     height: auto;
 }
 
@@ -29,11 +30,11 @@
 }
 
 .logo-text{
-    padding: 10px 5px 5px 10px;
+    padding: 20px 5px 5px 10px;
 }
 .name>h1{
     font-size: 30px;
-    background: -webkit-linear-gradient(#eee, #a78824);
+    background: -webkit-linear-gradient(#ffffff, #a78824);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
