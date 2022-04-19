@@ -1,5 +1,4 @@
-import {useState} from 'react'
-// import onClickOutside from 'react-onclickoutside';
+import {useState, useEffect, useRef} from 'react'
 import './Dropdown.css'
 
 function Dropdown({items, passAddress}) {
@@ -11,11 +10,25 @@ function Dropdown({items, passAddress}) {
         passAddress(add);
       }
     }
-    // Dropdown.handleClickOutside= () => setIsActive(false);
+
+    let ddRef = useRef();
+
+    useEffect(()=>{
+      let handler = (event) => {
+        if (!ddRef.current.contains(event.target)){
+          setIsActive(false)
+        }
+      };
+      document.addEventListener("mousedown", handler);
+
+      return()=>{
+        document.removeEventListener("mousedown",handler);
+      }
+    })
 
   return (
-    <div className='dropdown-container'>
-      <div className="selection" onClick={(e) => {setIsActive(!isActive);}}>
+    <div className='dropdown-container' ref={ddRef}>
+      <div className="selection"  onClick={(e) => {setIsActive(!isActive);}}>
         {selected !== null ? 
         (<div className='select-box'>
           <div className='token-info'>
@@ -49,9 +62,4 @@ function Dropdown({items, passAddress}) {
   )
 }
 
-// const clickOutsideConfig ={
-//   handleClickOutside: () => Dropdown.handleClickOutside, 
-// };
-
-// export default onClickOutside(Dropdown, clickOutsideConfig)
 export default Dropdown

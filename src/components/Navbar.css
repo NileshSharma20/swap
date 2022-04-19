@@ -16,8 +16,29 @@
     /* border: 1px solid #cfada5; */
 }
 
+.logoImage{
+    margin: 5px;
+    width: 40px;
+    height: auto;
+}
+
 .name{
     float: left;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.logo-text{
+    padding: 10px 5px 5px 10px;
+}
+.name>h1{
+    font-size: 30px;
+    background: -webkit-linear-gradient(#eee, #a78824);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.name:hover{
+    cursor: pointer;
 }
 
 .btn{

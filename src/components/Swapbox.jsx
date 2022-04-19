@@ -20,6 +20,8 @@ function Swapbox() {
   const [fromTokenAddress, setFromTokenAddress] = useState("");
   const [toTokenAddress, setToTokenAddress] = useState("");
 
+  const [protocolSelected, setProtocolSelected] = useState("");
+
   //get quote from store
   const {quote} = useSelector((state) => state.quote)
 
@@ -38,6 +40,11 @@ function Swapbox() {
     setToTokenAddress(address)
   }
 
+  function getProtocolSelected(selectedProtocls){
+    setProtocolSelected(selectedProtocls)
+    // console.log(`Selected Protocols:${selectedProtocls}`)
+  }
+
   //Initializing arrays
   useEffect(()=>{
     //Landing Page
@@ -53,6 +60,7 @@ function Swapbox() {
   //Deploying APIs
   useEffect(()=>{
     //Sending 0 as input leads to server error
+    // let strInputNum = `${inputNum}`
     if(strInputNum==="0"){
       strInputNum = ""
     }
@@ -60,12 +68,7 @@ function Swapbox() {
     //Getting quote
     if( (fromTokenAddress!=="")&&(toTokenAddress!=="")&&(strInputNum) ){
       const quoteData = {fromTokenAddress, toTokenAddress, strInputNum}
-      setQuoteLoad(true)
       dispatch(getQuote(quoteData))
-    }
-
-    if(quote){
-      setQuoteLoad(false);
     }
 
     //Restting quote value
@@ -102,7 +105,7 @@ function Swapbox() {
           </div>
         </div>  
         <div className="protocol-container">
-          <h1><Checkbox protocolsList={protocols}/></h1>
+          <h1><Checkbox protocolsList={protocols} passSelectedProtocols={getProtocolSelected}/></h1>
         </div>
         <div className="button-container">
           

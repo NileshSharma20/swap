@@ -17,7 +17,13 @@ function Navbar() {
   return (
     <div className='nav_container'>
       <div className="nav_text">
-        <div className='name'>sWasps</div>
+        
+        <div className='name'>
+          <img src='images/swapLogo.png' alt='logo' className='logoImage'/>
+          <div className="logo-text">
+            <h1>sWasps</h1>
+          </div>
+        </div>
         <div className="btn" onClick={(e)=>connectWallet()}>Connect Wallet</div>
       </div> 
     </div>
