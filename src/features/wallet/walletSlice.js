@@ -1,38 +1,100 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import walletService from './walletService'
 
-const initialState ={}
+const initialState ={
+    walletAddress: "",
+    checkAllow: "",
+    getAllow:"",
+    message: ''
+}
+
+export const connectWallet = createAsyncThunk(
+    'wallet/connectWallet',
+    async (_, thunkAPI) => {
+        try {
+            // let w = walletService.connectWallet() 
+            // console.log(`${w}`)
+            return walletService.connectWallet()
+        } catch (error) {
+            const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+export const checkAllowance = createAsyncThunk(
+    'wallet/checkAllowance',
+    async(checkData, thunkAPI) =>{
+        try {
+            return await walletService.checkAllowance(checkData.fromTokenAddress, checkData.walletAddress)
+        } catch (error) {
+            const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+export const getAllowance = createAsyncThunk(
+    'wallet/getAllowance',
+    async(fromTokenAddress, thunkAPI) =>{
+        try {
+            return await walletService.checkAllowance(fromTokenAddress)
+        } catch (error) {
+            const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
 
 
 export const walletSlice = createSlice({
     name: 'wallet',
     initialState,
     reducers:{
-        resetQuote: (state) => ({
-            something:0,
-            isError: false,
-            isSuccess: false,
-            isLoading: false,
+        resetWallet: (state) => ({
+            walletAddress:"",
+            checkAllow: "",
+            getAllow:"",
             message: ''}),
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getQuote.pending , (state)=>{
-                state.isLoading = true
+            .addCase(connectWallet.fulfilled, (state,action) => {
+                state.walletAddress = action.payload
             })
-            .addCase(getQuote.fulfilled, (state,action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                // state.quote = action.payload
+            .addCase(connectWallet.rejected, (state,action) => {
+                state.message = action.payload
             })
-            .addCase(getQuote.rejected, (state,action) => {
-                state.isLoading = false
-                state.isError = true
+            .addCase(checkAllowance.fulfilled, (state,action) => {
+                state.checkAllow = action.payload
+            })
+            .addCase(checkAllowance.rejected, (state,action) => {
+                state.message = action.payload
+            })
+            .addCase(getAllowance.fulfilled, (state,action) => {
+                state.getAllow = action.payload
+            })
+            .addCase(getAllowance.rejected, (state,action) => {
                 state.message = action.payload
             })
     }
 })
 
-export const {resetQuote} = walletSlice.actions;
+export const {resetWallet} = walletSlice.actions;
 
 export default walletSlice.reducer

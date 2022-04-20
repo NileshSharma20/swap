@@ -18,7 +18,7 @@ function Checkbox({protocolsList, passSelectedProtocols}) {
   useEffect(()=>{
     setProtocols(protocolsList)
     setCheckedProtocols(protocolsList.map(protocol => (protocol.isChecked === true)? protocol.id:""))
-    console.log(`set protocols ${JSON.stringify(protocolsList,null,4)}`)
+    // console.log(`set protocols ${JSON.stringify(protocolsList,null,4)}`)
   },[protocolsList])
 
   const handleChange= (e) => {

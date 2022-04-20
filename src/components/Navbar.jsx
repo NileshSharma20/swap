@@ -1,32 +1,15 @@
 import React, { useEffect } from 'react'
 import Web3 from 'web3';
 import './Navbar.css'
+import { useDispatch } from 'react-redux'
+import { connectWallet} from "../features/wallet/walletSlice"
 
 function Navbar() {
-  //Connecting to MetaMask Wallet
-  const connectWallet =()=>{
-    let provider = window.ethereum;
-
-    if(typeof provider !== 'undefined'){
-      provider.request({method: 'eth_requestAccounts'})
-      .then((accounts) =>{
-        console.log(accounts);
-      }).catch((error)=>{
-        console.log(error);
-      })
-    
-      window.ethereum.on('accountsChanged', function(accounts){
-        console.log(accounts);
-      })
-    }
-
-    const web3 = new Web3(provider)
-  }
+  const dispatch = useDispatch()
 
   useEffect(()=>{
-    connectWallet()
+    dispatch(connectWallet())
   },[])
-
 
   // const connectWallet = async () =>{
   //     if (window.ethereum) {
@@ -48,7 +31,7 @@ function Navbar() {
             <h1>sWasps</h1>
           </div>
         </div>
-        <div className="btn" onClick={(e)=>connectWallet()}>Connect Wallet</div>
+        <div className="btn" onClick={(e)=>dispatch(connectWallet())}>Connect Wallet</div>
       </div> 
     </div>
   )

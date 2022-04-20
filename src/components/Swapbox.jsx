@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getQuote, resetQuote } from '../features/quote/quoteSlice'
 import { getTokens} from '../features/token/tokenSlice'
 import { getProtocols} from '../features/protocol/protocolSlice'
+import { checkAllowance, getAllowance } from '../features/wallet/walletSlice'
 
 function Swapbox() {
   const dispatch = useDispatch();
@@ -16,13 +17,14 @@ function Swapbox() {
   const [quoteLoad, setQuoteLoad] = useState(false);
 
   const [inputNum, setInputNum] = useState(0);
-  // const [bigNum, setBigNum] = useState();
   let strInputNum = `${inputNum}`
 
   const [fromTokenAddress, setFromTokenAddress] = useState("");
   const [toTokenAddress, setToTokenAddress] = useState("");
 
   const [protocolSelected, setProtocolSelected] = useState("");
+
+
 
   //get quote from store
   const {quote} = useSelector((state) => state.quote)
@@ -33,6 +35,11 @@ function Swapbox() {
   //get protocols list from store
   const {protocols} = useSelector((state) => state.protocols)
 
+  //get wallet address
+  const {walletAddress} = useSelector((state)=> state.wallet)
+
+
+
   //Lifting selected addresses from Dropdown component
   function getFromAddress(address){
     setFromTokenAddress(address)
@@ -42,10 +49,24 @@ function Swapbox() {
     setToTokenAddress(address)
   }
 
+  //Lifting selected protocols from Checkbox
   function getProtocolSelected(selectedProtocls){
     setProtocolSelected(selectedProtocls)
-    // console.log(`Selected Protocols:${selectedProtocls}`)
   }
+
+
+  //OnClick events
+  function handleCheck(){
+    let checkData = {fromTokenAddress,walletAddress}
+    console.log(`Checking Allowance: ${fromTokenAddress},${walletAddress}`)
+    dispatch(checkAllowance(checkData))
+  }
+
+  function handleGet(){
+    dispatch(getAllowance(fromTokenAddress))
+  }
+
+
 
   //Initializing arrays
   useEffect(()=>{
@@ -58,17 +79,24 @@ function Swapbox() {
     dispatch(getProtocols())
   },[dispatch, navigate, tokens, protocols])
 
+  //Setting input num to be never null
+  useEffect(()=>{
+    if(!inputNum){
+      setInputNum(0);
+    }
+  },[inputNum])
 
-  // Converting to usable format
-  // useEffect(()=>{
-  //   setBigNum(Web3.utils.toWei(inputNum));
-  // },[inputNum])
-  
 
   //Deploying APIs
   useEffect(()=>{
+    //Checking Allowance
+    if(fromTokenAddress && walletAddress){
+      let checkData = {fromTokenAddress,walletAddress}
+      console.log(`Checking Allowance useEffect: ${fromTokenAddress},${walletAddress}`)
+      dispatch(checkAllowance(checkData))
+    }
+
     //Sending 0 as input leads to server error
-    // let strInputNum = `${inputNum}`
     if(strInputNum==="0"){
       strInputNum = ""
     }
@@ -77,7 +105,7 @@ function Swapbox() {
     if( (fromTokenAddress!=="")&&(toTokenAddress!=="")&&(strInputNum) ){
 
       let big = Web3.utils.toWei(strInputNum)
-      console.log(`${typeof(big)}, ${big}`)
+      // console.log(`${typeof(big)}, ${big}`)
       const quoteData = {fromTokenAddress, toTokenAddress, big}
       dispatch(getQuote(quoteData))
     }
@@ -86,7 +114,7 @@ function Swapbox() {
     return () => {
       dispatch(resetQuote())
     }
-  },[fromTokenAddress, toTokenAddress, strInputNum, dispatch])
+  },[fromTokenAddress, toTokenAddress, strInputNum, walletAddress, dispatch])
 
   return (
     <div className='swapbox-container'>
@@ -120,8 +148,8 @@ function Swapbox() {
         </div>
         <div className="button-container">
           
-          <div className='allow-btn'>Check Allowance</div>
-          <div className='allow-btn'>Get Allowance</div>
+          <div className='allow-btn' onClick={(e)=>handleCheck()}>Check Allowance</div>
+          <div className='allow-btn' onClick={(e)=>handleGet()}>Get Allowance</div>
           <div className='swap-btn'>Swap</div> 
         </div>
     </div>

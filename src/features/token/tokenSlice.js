@@ -3,14 +3,11 @@ import tokenService from './tokenService'
 
 const initialState = {
     tokens: [],
-    isError: false,
-    isLoading: false,
-    isSuccess: false,
     message: '',
 }
 
 export const getTokens = createAsyncThunk(
-    'token/gettokens',
+    'token/getTokens',
     async (_, thunkAPI) => {
         try {
             return await tokenService.getTokens()
@@ -31,24 +28,15 @@ export const tokenSlice = createSlice({
     initialState,
     reducer:{
         reset: (state) => ({
-            isError: false,
-            isSuccess: false,
-            isLoading: false,
+            tokens: [],
             message: ''})
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getTokens.pending , (state) => {
-                state.isLoading= true
-            })
             .addCase(getTokens.fulfilled, (state,action)=> {
-                state.isLoading = false
-                state.isSuccess = true
                 state.tokens = action.payload
             })
             .addCase(getTokens.rejected, (state, action)=>{
-                state.isLoading = false
-                state.isError = true
                 state.message = action.payload
             })
     }

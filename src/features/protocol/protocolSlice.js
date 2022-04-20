@@ -3,14 +3,11 @@ import protocolService from './protocolService'
 
 const initialState = {
     protocols: [],
-    isError: false,
-    isLoading: false,
-    isSuccess: false,
     message: '',
 }
 
 export const getProtocols = createAsyncThunk(
-    'protocol/getprotocols',
+    'protocol/getProtocols',
     async (_, thunkAPI) => {
         try {
             return await protocolService.getProtocols()
@@ -31,24 +28,15 @@ export const protocolSlice = createSlice({
     initialState,
     reducer:{
         reset: (state) => ({
-            isError: false,
-            isSuccess: false,
-            isLoading: false,
+            protocols:[],
             message: ''})
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getProtocols.pending , (state) => {
-                state.isLoading= true
-            })
             .addCase(getProtocols.fulfilled, (state,action)=> {
-                state.isLoading = false
-                state.isSuccess = true
                 state.protocols = action.payload
             })
             .addCase(getProtocols.rejected, (state, action)=>{
-                state.isLoading = false
-                state.isError = true
                 state.message = action.payload
             })
     }
