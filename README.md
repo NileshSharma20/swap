@@ -8,8 +8,8 @@
 
 * Account Login
 * Get from Address
-* Check Allowance
-* If yes, Swap, if not, Get Allowance
+* Check Allowance (allowance>0 && allowance>value)
+* If true, Swap, if false, Get Allowance
 * Get to Address
 * Get value
 * Return Quote

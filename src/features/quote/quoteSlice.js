@@ -3,9 +3,6 @@ import quoteService from './quoteService'
 
 const initialState ={ 
     quote: 0,
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
     message: '',
 }
 
@@ -13,7 +10,7 @@ const initialState ={
 export const getQuote = createAsyncThunk(
     'quote/getquote',
     async (quoteData, thunkAPI) => {
-        console.log(`${quoteData.fromTokenAddress}, ${quoteData.toTokenAddress}, ${quoteData.big}`)
+        // console.log(`${quoteData.fromTokenAddress}, ${quoteData.toTokenAddress}, ${quoteData.big}`)
         try {
             return await quoteService.getQuote(quoteData.fromTokenAddress, quoteData.toTokenAddress, quoteData.big)
         } catch (error) {
@@ -34,26 +31,14 @@ export const quoteSlice = createSlice({
     reducers:{
         resetQuote: (state) => ({
             quote:0,
-            isError: false,
-            isSuccess: false,
-            isLoading: false,
             message: ''}),
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getQuote.pending , (state)=>{
-                state.isSuccess = false
-                state.isError = false
-                state.isLoading = true
-            })
             .addCase(getQuote.fulfilled, (state,action) => {
-                state.isLoading = false
-                state.isSuccess = true
                 state.quote = action.payload
             })
             .addCase(getQuote.rejected, (state,action) => {
-                state.isLoading = false
-                state.isError = true
                 state.message = action.payload
             })
     }

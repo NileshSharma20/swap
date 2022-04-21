@@ -6,8 +6,8 @@ const checkAllowanceApi = 'https://api.1inch.io/v4.0/56/approve/allowance';
 const giveAllowanceApi = 'https://api.1inch.io/v4.0/56/approve/transaction';
 const swapApi = 'https://api.1inch.io/v4.0/56/swap';
 
-var allow = false;
-var allowance = false;
+var allow = {};
+var allowance = {};
 var accAddress = ""
 
 const connectWallet = async() => {
@@ -43,7 +43,7 @@ const checkAllowance = async(fromTokenAdd, walletAdd)=> {
             }
         }).then(function (response){
             // console.log(`response: ${JSON.stringify(response,null,4)}`)
-            allow = response
+            allow = response.data
         }).catch( function(error){
             console.log(error)
         })
@@ -51,45 +51,58 @@ const checkAllowance = async(fromTokenAdd, walletAdd)=> {
         return allow
 }
 
-const getAllowance = async(fromTokenAdd) => {
-    await axios.get(giveAllowanceApi,
+const getAllowance = async(fromTokenAdd, walletAddress) => {
+    const response = await axios.get(giveAllowanceApi,
     {
         params:{
             tokenAddress: fromTokenAdd
         }
-    }).then(function(response){
-        allowance = response
-    }).catch(function(error){
-        console.log(error)
+    })
+    // .then(function(response){
+    //     allowance = response.data
+
+
+    // }).catch(function(error){
+    //     console.log(error)
+    // })
+
+    const web3 = new Web3(window.ethereum)
+    const sign = await web3.eth.sendTransaction({
+        from: walletAddress,
+        data: response.data.data,
+        gasPrice: response.data.gasPrice,
+        to: response.data.to,
+        value: response.data.value
     })
 
-    return allowance
+    return response.data
 }
 
-// const swapParameters = async(fromToken, toToken, value, protocolsList) => {
-//     await axios.get(swapApi, {
-//         params:{
-//             fromTokenAddress: fromToken,
-//             toTokenAddress: toToken,
-//             amount: value,
-//             fromAddress: userAddress,
-//             slippage: 1,
-//             disableEstimate: false,
-//             allowPartialFill: false,
-//             protocols:protocolsList.toString()
-//         }
-//     }).then(function(response){
-//         console.log(`swapped`)
-//     }).catch(function(error){
-//         console.log(error)
-//     })
-// }
+const swapParameters = async(fromToken, toToken, value, protocolsList, userAddress) => {
+    const response = await axios.get(swapApi, {
+        params:{
+            fromTokenAddress: fromToken,
+            toTokenAddress: toToken,
+            amount: value,
+            fromAddress: userAddress,
+            slippage: 1,
+            disableEstimate: false,
+            allowPartialFill: false,
+            protocols:protocolsList
+        }
+    })
+
+    const swapData = response.data.tx
+
+    const web3 = new Web3(window.ethereum)
+    await web3.eth.sendTransaction(swapData)
+}
 
 const walletService = {
     connectWallet,
     checkAllowance,
     getAllowance,
-    // swapParameters,
+    swapParameters,
 }
 
 export default walletService

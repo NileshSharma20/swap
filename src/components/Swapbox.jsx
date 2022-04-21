@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getQuote, resetQuote } from '../features/quote/quoteSlice'
 import { getTokens} from '../features/token/tokenSlice'
 import { getProtocols} from '../features/protocol/protocolSlice'
-import { checkAllowance, getAllowance } from '../features/wallet/walletSlice'
+import { checkAllowance, getAllowance, swap } from '../features/wallet/walletSlice'
 
 function Swapbox() {
   const dispatch = useDispatch();
@@ -56,14 +56,31 @@ function Swapbox() {
 
 
   //OnClick events
-  function handleCheck(){
-    let checkData = {fromTokenAddress,walletAddress}
-    console.log(`Checking Allowance: ${fromTokenAddress},${walletAddress}`)
-    dispatch(checkAllowance(checkData))
-  }
+  // function handleCheck(){
+  //   let checkData = {fromTokenAddress,walletAddress}
+  //   console.log(`Checking Allowance: ${fromTokenAddress},${walletAddress}`)
+  //   dispatch(checkAllowance(checkData))
+  // }
 
   function handleGet(){
-    dispatch(getAllowance(fromTokenAddress))
+    let checkData = {fromTokenAddress,walletAddress}
+    console.log(`Getting Allowance: ${fromTokenAddress},${walletAddress}`)
+    dispatch(getAllowance(checkData))
+  }
+
+  function handleSwap(){
+    // if(strInputNum==="0"){
+    //   strInputNum = ""
+    // }
+    if(strInputNum && fromTokenAddress && toTokenAddress && protocolSelected && walletAddress){
+    let big = Web3.utils.toWei(strInputNum)
+    let swapData = {fromTokenAddress, toTokenAddress, big, protocolSelected, walletAddress}
+    console.log(`Swapping: ${JSON.stringify(swapData,null,4)}`)
+    dispatch(swap(swapData))
+    }
+    else{
+      alert("Enter valid data")
+    }
   }
 
 
@@ -80,15 +97,16 @@ function Swapbox() {
   },[dispatch, navigate, tokens, protocols])
 
   //Setting input num to be never null
-  useEffect(()=>{
-    if(!inputNum){
-      setInputNum(0);
-    }
-  },[inputNum])
+  // useEffect(()=>{
+  //   if(!inputNum){
+  //     setInputNum(0);
+  //   }
+  // },[inputNum])
 
 
   //Deploying APIs
   useEffect(()=>{
+    let strInputNum = `${inputNum}`
     //Checking Allowance
     if(fromTokenAddress && walletAddress){
       let checkData = {fromTokenAddress,walletAddress}
@@ -127,7 +145,7 @@ function Swapbox() {
             <input className='number-input' 
               value={inputNum} 
               onChange={(e) =>setInputNum(e.target.value)  } 
-              onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} />
+              onKeyPress={(e) => !/[0-9,.]/.test(e.key) && e.preventDefault()} />
           </div>
         </div>
         <div className='from-container'>
@@ -148,9 +166,9 @@ function Swapbox() {
         </div>
         <div className="button-container">
           
-          <div className='allow-btn' onClick={(e)=>handleCheck()}>Check Allowance</div>
-          <div className='allow-btn' onClick={(e)=>handleGet()}>Get Allowance</div>
-          <div className='swap-btn'>Swap</div> 
+          {/* <div className='allow-btn' onClick={(e)=>handleCheck()}>Check Allowance</div> */}
+          <div className='swap-btn' onClick={(e)=>handleGet()}>Get Allowance</div>
+          <div className='swap-btn' onClick={(e)=>handleSwap()}>Swap</div> 
         </div>
     </div>
   )

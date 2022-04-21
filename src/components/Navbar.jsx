@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Web3 from 'web3';
+// import Web3 from 'web3';
 import './Navbar.css'
 import { useDispatch } from 'react-redux'
 import { connectWallet} from "../features/wallet/walletSlice"

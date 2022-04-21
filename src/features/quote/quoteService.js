@@ -16,16 +16,16 @@ const getQuote = async(fromToken, toToken, value) =>{
         quoteDec = Web3.utils.fromWei(response.data.toTokenAmount);
         quote = parseFloat(quoteDec).toFixed(3);
         // quote = quote.toFixed(3)
-        console.log(`quote type: ${typeof(quote)}`)
-        console.log(JSON.stringify(response.data,null,4))
-        if(value==="0"){
+        // console.log(`quote type: ${typeof(quote)}`)
+        // console.log(JSON.stringify(response.data,null,4))
+        if(value==="0" || quote==="0.000"){
             quote = 0;
         }
     }).catch( function(error){
         console.log(error)
-        if(value==="0"){
-            quote = 0;
-        }
+        // if(value==="0" || quote==="0.000" || value===""){
+        //     quote = 0;
+        // }
     })
 
     return quote

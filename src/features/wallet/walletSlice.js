@@ -46,9 +46,30 @@ export const checkAllowance = createAsyncThunk(
 
 export const getAllowance = createAsyncThunk(
     'wallet/getAllowance',
-    async(fromTokenAddress, thunkAPI) =>{
+    async(checkData, thunkAPI) =>{
         try {
-            return await walletService.checkAllowance(fromTokenAddress)
+            return await walletService.getAllowance(checkData.fromTokenAddress,checkData.walletAddress)
+        } catch (error) {
+            const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+export const swap = createAsyncThunk(
+    'wallet/swap',
+    async(swapData, thunkAPI) =>{
+        try {
+            return await walletService.swapParameters(swapData.fromTokenAddress, 
+                                                      swapData.toTokenAddress, 
+                                                      swapData.big, 
+                                                      swapData.protocolSelected, 
+                                                      swapData.walletAddress)
         } catch (error) {
             const message =
           (error.response &&
@@ -90,6 +111,12 @@ export const walletSlice = createSlice({
                 state.getAllow = action.payload
             })
             .addCase(getAllowance.rejected, (state,action) => {
+                state.message = action.payload
+            })
+            .addCase(swap.fulfilled, (state,action) => {
+                console.log(`Swapped!`)
+            })
+            .addCase(swap.rejected, (state,action) => {
                 state.message = action.payload
             })
     }
