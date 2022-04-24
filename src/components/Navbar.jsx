@@ -1,25 +1,11 @@
-import React, { useEffect } from 'react'
-// import Web3 from 'web3';
 import './Navbar.css'
-import { useDispatch } from 'react-redux'
-import { connectWallet} from "../features/wallet/walletSlice"
+import { useSelector } from 'react-redux'
+
 
 function Navbar() {
-  const dispatch = useDispatch()
+  // const navigate = useNavigate()
 
-  useEffect(()=>{
-    dispatch(connectWallet())
-  },[])
-
-  // const connectWallet = async () =>{
-  //     if (window.ethereum) {
-  //         window.web3 = new Web3(window.ethereum);
-  //         await window.ethereum.enable();
-  //         console.log("Connected");
-  //       } else {
-  //         alert("Metamask not found");
-  //       }
-  // }
+  const {walletAddress} = useSelector((state)=> state.wallet)
 
   return (
     <div className='nav_container'>
@@ -31,7 +17,11 @@ function Navbar() {
             <h1>sWasps</h1>
           </div>
         </div>
-        <div className="btn" onClick={(e)=>dispatch(connectWallet())}>Connect Wallet</div>
+        {walletAddress?
+          <div className="btn"> {walletAddress}</div>:
+          <></>
+        }
+        
       </div> 
     </div>
   )

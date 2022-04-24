@@ -3,7 +3,7 @@ import walletService from './walletService'
 
 const initialState ={
     walletAddress: "",
-    checkAllow: "",
+    checkAllow: "0",
     getAllow:"",
     message: ''
 }
@@ -102,7 +102,7 @@ export const walletSlice = createSlice({
                 state.message = action.payload
             })
             .addCase(checkAllowance.fulfilled, (state,action) => {
-                state.checkAllow = action.payload
+                state.checkAllow = action.payload.allowance
             })
             .addCase(checkAllowance.rejected, (state,action) => {
                 state.message = action.payload

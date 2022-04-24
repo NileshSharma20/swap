@@ -73,7 +73,6 @@ function Checkbox({protocolsList, passSelectedProtocols}) {
           </div>
         ))}
         </div>
-          {/* <div className="checkoption-container">{checkedProtocols.toString()}</div> */}
       </div>
     </div>
   )

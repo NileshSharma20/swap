@@ -6,8 +6,8 @@ const checkAllowanceApi = 'https://api.1inch.io/v4.0/56/approve/allowance';
 const giveAllowanceApi = 'https://api.1inch.io/v4.0/56/approve/transaction';
 const swapApi = 'https://api.1inch.io/v4.0/56/swap';
 
-var allow = {};
-var allowance = {};
+var allow = "";
+// var allowance = {};
 var accAddress = ""
 
 const connectWallet = async() => {
