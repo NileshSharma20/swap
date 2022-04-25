@@ -1,17 +1,23 @@
 import {useState, useEffect, useRef} from 'react'
 import './Dropdown.css'
 
-function Dropdown({items, passAddress}) {
+function Dropdown({items, passAddress, selIndex}) {
     const [isActive,setIsActive] = useState(false);
     const [selected, setSelected] = useState(null);
     
     const functionHandler = (add) => {
-      if(add!==""){
+      if(add.addressPass!==""){
         passAddress(add);
       }
     }
 
     let ddRef = useRef();
+
+    useEffect(()=>{
+      if(selIndex!==null && selIndex!==selected){
+        setSelected(selIndex)
+      }
+    },[selIndex])
 
     useEffect(()=>{
       let handler = (event) => {
@@ -50,7 +56,7 @@ function Dropdown({items, passAddress}) {
             <div key={item.address} className="dropdown-item" onClick={e =>{
               setSelected(index);
               setIsActive(false);
-              functionHandler(items[index].address);
+              functionHandler({addressPass:items[index].address, indexPass:index});
             }}>
               <div className="logo"><img className='logo-img' src={item.logoURI} alt='' /></div>
               <div className="currency-name">{item.symbol}</div>

@@ -34,6 +34,45 @@
       color: #cfada5;
   }
 
+  .interchange{
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 5 0px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .interchange-btn{
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgba(207, 173, 165,0.6);
+    border-radius: 100px;
+    align-items:center;
+    justify-content:space-around;
+    cursor: pointer;
+  }
+
+  .interchange-btn:hover{
+    color: #cfada5;
+    background-color: rgba(207, 173, 165,1);
+    transition: ease-in 0.3s;
+  }
+
+  .fa{
+    color: #cfada5;
+    font-size: 15px;
+    padding: 5px 10px;
+  }
+
+  .fa:hover{
+    color:#171412;
+    font-size: 15px;
+    transition: ease-in 0.4s;
+    transform: rotate(180deg);
+  }
+
   .protocol-container{
     position: relative;
     margin: 15px 0px;

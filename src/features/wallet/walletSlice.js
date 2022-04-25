@@ -12,8 +12,6 @@ export const connectWallet = createAsyncThunk(
     'wallet/connectWallet',
     async (_, thunkAPI) => {
         try {
-            // let w = walletService.connectWallet() 
-            // console.log(`${w}`)
             return walletService.connectWallet()
         } catch (error) {
             const message =
@@ -89,7 +87,7 @@ export const walletSlice = createSlice({
     reducers:{
         resetWallet: (state) => ({
             walletAddress:"",
-            checkAllow: "",
+            checkAllow: "0",
             getAllow:"",
             message: ''}),
     },

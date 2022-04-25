@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Web3 from 'web3'
 import Dropdown from './Dropdown'
 import Checkbox from './Checkbox'
 import './Swapbox.css'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getQuote, resetQuote } from '../features/quote/quoteSlice'
 import { getTokens} from '../features/token/tokenSlice'
@@ -12,7 +12,7 @@ import { connectWallet, checkAllowance, getAllowance, swap } from '../features/w
 
 function Swapbox() {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [quoteLoad, setQuoteLoad] = useState(false);
 
@@ -21,6 +21,15 @@ function Swapbox() {
 
   const [fromTokenAddress, setFromTokenAddress] = useState("");
   const [toTokenAddress, setToTokenAddress] = useState("");
+
+  const prevFromAddress = useRef("");
+  const prevToAddress = useRef("");
+
+  const [fromTokenIndex, setFromTokenIndex] = useState(null);
+  const [toTokenIndex, setToTokenIndex] = useState(null);
+
+  const prevFromIndex = useRef(null);
+  const prevToIndex = useRef(null);
 
   const [protocolSelected, setProtocolSelected] = useState("");
 
@@ -45,11 +54,19 @@ function Swapbox() {
 
   //Lifting selected addresses from Dropdown component
   function getFromAddress(address){
-    setFromTokenAddress(address)
+    // console.log(`From: ${JSON.stringify(address,null,4)}`)
+    prevFromAddress.current = fromTokenAddress
+    prevFromIndex.current = fromTokenIndex
+    setFromTokenAddress(address.addressPass)
+    setFromTokenIndex(address.indexPass)
   }
 
   function getToAddress(address){
-    setToTokenAddress(address)
+    // console.log(`To: ${JSON.stringify(address,null,4)}`)
+    prevToAddress.current = toTokenAddress
+    prevToIndex.current = toTokenIndex
+    setToTokenAddress(address.addressPass)
+    setToTokenIndex(address.indexPass)
   }
 
   //Lifting selected protocols from Checkbox
@@ -80,14 +97,33 @@ function Swapbox() {
     }
   }
 
+  function interchangeAdd(){
+    let tempAdd = fromTokenAddress
+    let tempIndex = fromTokenIndex
+    console.log(`temp: ${tempIndex} from: ${fromTokenAddress} to:${toTokenAddress}`)
+    setFromTokenAddress(toTokenAddress)
+    setFromTokenIndex(toTokenIndex)
+    setToTokenAddress(tempAdd)
+    setToTokenIndex(tempIndex)
+  }
+
+  // function equalInterchange(){
+  //   let tempAdd = 
+  //   let tempIndex = 
+  //   setToTokenAddress()
+  //   setToTokenIndex()
+  //   setFromTokenAddress()
+  //   setFromTokenIndex()
+  // }
+
 
 
   //Initializing arrays
   useEffect(()=>{
     //Loading 
-    // if(!tokens || !protocols){
-    //   navigate('/loading')
-    // }
+    if(!tokens || !protocols){
+      navigate('/loading')
+    }
 
     dispatch(getTokens())
     dispatch(getProtocols())
@@ -100,8 +136,12 @@ function Swapbox() {
     }
   },[quote])
 
+
   //Deploying APIs
   useEffect(()=>{
+    console.log(`fromTokenAdd: ${fromTokenAddress} prev: ${prevFromAddress.current}`)
+    console.log(`toTokenAdd: ${toTokenAddress} prev: ${prevToAddress.current}`)
+
     let strInputNum = `${inputNum}`
     if(strInputNum){
       var big = Web3.utils.toWei(strInputNum)
@@ -133,6 +173,21 @@ function Swapbox() {
       strInputNum = ""
     }
 
+    //If same from and to
+    // if(fromTokenAddress && toTokenAddress && fromTokenAddress === toTokenAddress){
+    //   if(fromTokenAddress !== prevFromAddress && prevFromAddress){
+    //     setFromTokenAddress(toTokenAddress)
+    //     setFromTokenIndex(toTokenIndex)
+    //     setToTokenAddress(prevFromAddress)
+    //     setToTokenIndex(prevFromIndex)
+    //   }else if(toTokenAddress !== prevToAddress && prevToAddress){
+    //     setToTokenAddress(fromTokenAddress)
+    //     setToTokenIndex(fromTokenIndex)
+    //     setFromTokenAddress(prevToAddress)
+    //     setFromTokenIndex(prevToIndex)
+    //   }
+    // }
+
     //Getting quote
     if( (fromTokenAddress!=="")&&(toTokenAddress!=="")&&(strInputNum) ){
       const quoteData = {fromTokenAddress, toTokenAddress, big}
@@ -153,7 +208,7 @@ function Swapbox() {
           <div className='header'>From</div>
           <div className='field-container'>
             <div className="currency">
-              <Dropdown items={tokens} passAddress={getFromAddress}/>
+              <Dropdown items={tokens} selIndex={fromTokenIndex} passAddress={getFromAddress}  />
             </div>
             <input className='number-input' 
               value={inputNum} 
@@ -161,11 +216,18 @@ function Swapbox() {
               onKeyPress={(e) => !/[0-9,.]/.test(e.key) && e.preventDefault()} />
           </div>
         </div>
+
+        <div className="interchange">
+          <div className="interchange-btn" onClick={(e)=>interchangeAdd()}>
+          <i className="fa fa-arrow-down" />
+          </div>
+        </div>
+
         <div className='from-container'>
           <div className='header'>To (estimated)</div>
           <div className='field-container'>
             <div className="currency">
-              <Dropdown items={tokens} passAddress={getToAddress}/>
+              <Dropdown items={tokens} selIndex={toTokenIndex} passAddress={getToAddress} />
             </div>
             {quoteLoad ?
               <div className='load'></div> :
@@ -178,10 +240,12 @@ function Swapbox() {
           <h1><Checkbox protocolsList={protocols} passSelectedProtocols={getProtocolSelected}/></h1>
         </div>
         <div className="button-container">
-          { isConnected?
+          {isConnected?
           <>
-          {hasAllowance?<div className='swap-btn' onClick={(e)=>handleSwap()}>Swap</div>:
-          <div className='swap-btn' onClick={(e)=>handleGet()}>Get Allowance</div>}</>
+            {hasAllowance?
+              <div className='swap-btn' onClick={(e)=>handleSwap()}>Swap</div>:
+              <div className='swap-btn' onClick={(e)=>handleGet()}>Get Allowance</div>}
+          </>
           :
           <div className="swap-btn" onClick={(e)=>handleConnect()}>Connect Wallet</div>
           }
